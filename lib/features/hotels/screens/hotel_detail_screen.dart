@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../models/hotel.dart';
 import '../models/booking.dart';
@@ -62,12 +63,30 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                widget.hotel.imageAsset,
+            borderRadius: BorderRadius.circular(12),
+              child: CachedNetworkImage(
+                imageUrl: widget.hotel.imageUrl,
                 height: 200,
                 width: double.infinity,
                 fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  height: 200,
+                  width: double.infinity,
+                  color: Colors.grey[200],
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  height: 200,
+                  width: double.infinity,
+                  color: Colors.grey[300],
+                  child: const Icon(
+                    Icons.broken_image,
+                    size: 60,
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 16),
